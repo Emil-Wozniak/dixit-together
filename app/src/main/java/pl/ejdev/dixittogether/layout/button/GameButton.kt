@@ -14,9 +14,13 @@ private val buttonBg =
     Color(174, 31, 27)
 
 @Composable
-internal fun GameButton(text: String, size: TextUnit = 10.em) =
+internal fun GameButton(
+    text: String,
+    size: TextUnit = 10.em,
+    onClick: () -> Unit
+) =
     Button(
-        onClick = { },
+        onClick = onClick,
         colors = buttonColors(
             containerColor = buttonBg,
             contentColor = colorScheme.surface
@@ -26,6 +30,6 @@ internal fun GameButton(text: String, size: TextUnit = 10.em) =
             text,
             fontFamily = KeltWide,
             fontSize = size,
-            color = Color.Black
+            color = Color.White
         )
     }

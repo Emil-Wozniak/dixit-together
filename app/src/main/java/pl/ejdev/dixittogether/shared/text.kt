@@ -1,5 +1,6 @@
 package pl.ejdev.dixittogether.shared
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalTextStyle
@@ -25,19 +26,24 @@ import pl.ejdev.dixittogether.R
 internal const val TITLE = "Dixit"
 internal const val SUB_TITLE = "Together"
 
-internal val shadowColor = Color(244,212, 154)
+internal val shadowColor = Color(244, 212, 154)
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
-fun Title(text: String, size: TextUnit, lineHeight: TextUnit = 2.5.em) {
+fun Title(
+    text: String,
+    size: TextUnit,
+    lineHeight: TextUnit = 2.5.em,
+    modifier: Modifier = Modifier
+        .padding(16.dp)
+        .offset(x = 8.dp, y = 8.dp)
+) {
     Text(
         text = text,
         fontFamily = KeltWide,
         fontWeight = FontWeight.Normal,
         fontSize = size,
-        modifier = Modifier
-            .padding(16.dp)
-            .offset(x = 8.dp, y = 8.dp),
+        modifier = modifier,
         style = LocalTextStyle.current.merge(
             TextStyle(
                 lineHeight = lineHeight,
