@@ -20,7 +20,7 @@ internal typealias Hex = String
 
 internal infix fun Hex.of(color: Color) = GameColor(this, color)
 
-internal data class GameColor(val hex: Hex, val color: Color)
+data class GameColor(val hex: Hex, val color: Color)
 
 internal val GAME_COLORS: List<GameColor> =
     listOf(

@@ -10,6 +10,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -22,6 +24,11 @@ import pl.ejdev.dixittogether.shared.GAME_COLORS
 import pl.ejdev.dixittogether.shared.GameColor
 import pl.ejdev.dixittogether.shared.KeltWide
 import pl.ejdev.dixittogether.shared.Title
+
+private const val ADD_USER = "add user"
+private const val ADD_USER_BTN = "add-user-btn"
+private const val ADD_USER_ICON = "add-user-icon"
+private const val USER_NAME_TEXT_FIELD = "user-name-text-field"
 
 @Composable
 internal fun AddPlayer(
@@ -43,6 +50,9 @@ internal fun AddPlayer(
                     onValueChange = { name.value = it },
                     modifier = Modifier
                         .background(Color.White)
+                        .semantics {
+                            testTag = USER_NAME_TEXT_FIELD
+                        }
                 )
             }
             Spacer(modifier = Modifier.size(4.dp))
@@ -63,11 +73,17 @@ internal fun AddPlayer(
                     top = 12.dp,
                     end = 12.dp,
                     bottom = 12.dp
-                )
+                ),
+                modifier = Modifier.semantics {
+                    testTag = ADD_USER_BTN
+                }
             ) {
                 Icon(
                     Icons.Filled.Add,
-                    contentDescription = "add user"
+                    contentDescription = ADD_USER,
+                    modifier = Modifier.semantics {
+                        testTag = ADD_USER_ICON
+                    }
                 )
             }
         }

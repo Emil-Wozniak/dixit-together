@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -21,7 +20,7 @@ private const val START_BUTTON_LABEL = "Start"
 private const val SplashWaitTime: Long = 2000
 
 @Composable
-internal fun LandingScreen(navController: NavHostController,  onTimeout: () -> Unit = {}) {
+internal fun LandingScreen(navController: NavHostController) {
 
     LaunchedEffect(Unit) {
         delay(SplashWaitTime)
