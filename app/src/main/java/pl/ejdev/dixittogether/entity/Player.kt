@@ -2,7 +2,7 @@ package pl.ejdev.dixittogether.entity
 
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
-import pl.ejdev.dixittogether.shared.GameColor
+import pl.ejdev.dixittogether.features.core.shared.GameColor
 
 data class Player(
     val name: String? = null,

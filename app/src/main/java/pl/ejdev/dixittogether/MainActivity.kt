@@ -17,8 +17,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import pl.ejdev.dixittogether.layout.view.SetupGameScreen
-import pl.ejdev.dixittogether.shared.TITLE
-import pl.ejdev.dixittogether.shared.Title
+import pl.ejdev.dixittogether.features.core.shared.TITLE
+import pl.ejdev.dixittogether.features.core.shared.Title
 import pl.ejdev.dixittogether.ui.theme.DixitTogetherTheme
 import pl.ejdev.dixittogether.layout.view.ProfileScreen
 import pl.ejdev.dixittogether.layout.view.LandingScreen

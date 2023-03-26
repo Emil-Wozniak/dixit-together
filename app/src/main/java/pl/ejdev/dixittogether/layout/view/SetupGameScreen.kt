@@ -20,10 +20,10 @@ import pl.ejdev.dixittogether.entity.Player
 import pl.ejdev.dixittogether.entity.playerSaver
 import pl.ejdev.dixittogether.layout.dropdown.DropDownColors
 import pl.ejdev.dixittogether.layout.shape.Circle
-import pl.ejdev.dixittogether.shared.GAME_COLORS
-import pl.ejdev.dixittogether.shared.GameColor
-import pl.ejdev.dixittogether.shared.KeltWide
-import pl.ejdev.dixittogether.shared.Title
+import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
+import pl.ejdev.dixittogether.features.core.shared.GameColor
+import pl.ejdev.dixittogether.features.core.shared.KeltWide
+import pl.ejdev.dixittogether.features.core.shared.Title
 
 private const val ADD_USER = "add user"
 private const val ADD_USER_BTN = "add-user-btn"

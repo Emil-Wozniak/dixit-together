@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.em
-import pl.ejdev.dixittogether.shared.KeltWide
+import pl.ejdev.dixittogether.features.core.shared.KeltWide
 
 private val buttonBg =
     Color(174, 31, 27)

@@ -11,9 +11,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.delay
-import pl.ejdev.dixittogether.shared.SUB_TITLE
-import pl.ejdev.dixittogether.shared.TITLE
-import pl.ejdev.dixittogether.shared.Title
+import pl.ejdev.dixittogether.features.core.shared.SUB_TITLE
+import pl.ejdev.dixittogether.features.core.shared.TITLE
+import pl.ejdev.dixittogether.features.core.shared.Title
 import pl.ejdev.dixittogether.ui.button.GameButton
 
 private const val START_BUTTON_LABEL = "Start"

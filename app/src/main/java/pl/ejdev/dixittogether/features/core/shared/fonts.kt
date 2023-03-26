@@ -1,4 +1,4 @@
-package pl.ejdev.dixittogether.shared
+package pl.ejdev.dixittogether.features.core.shared
 
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily

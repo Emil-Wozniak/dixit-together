@@ -1,4 +1,4 @@
-package pl.ejdev.dixittogether.shared
+package pl.ejdev.dixittogether.features.core.shared
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb

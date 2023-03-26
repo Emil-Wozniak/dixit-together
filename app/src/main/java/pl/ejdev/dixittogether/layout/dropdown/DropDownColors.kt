@@ -16,8 +16,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import pl.ejdev.dixittogether.layout.shape.Circle
-import pl.ejdev.dixittogether.shared.GAME_COLORS
-import pl.ejdev.dixittogether.shared.GameColor
+import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
+import pl.ejdev.dixittogether.features.core.shared.GameColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
