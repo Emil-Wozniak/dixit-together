@@ -2,7 +2,7 @@ package pl.ejdev.dixittogether
 
 import androidx.compose.ui.test.*
 import org.junit.jupiter.api.Test
-import pl.ejdev.dixittogether.layout.view.LandingScreen
+import pl.ejdev.dixittogether.features.core.view.pages.LandingScreen
 
 private const val HOME_BTN = "home-btn"
 private const val PROFILE_BTN = "profile-btn"

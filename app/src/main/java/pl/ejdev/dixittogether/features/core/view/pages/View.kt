@@ -1,8 +1,7 @@
-package pl.ejdev.dixittogether.layout.view
+package pl.ejdev.dixittogether.features.core.view.pages
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

@@ -1,4 +1,4 @@
-package pl.ejdev.dixittogether.layout.view
+package pl.ejdev.dixittogether.features.core.view.pages
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,7 +14,7 @@ import kotlinx.coroutines.delay
 import pl.ejdev.dixittogether.features.core.shared.SUB_TITLE
 import pl.ejdev.dixittogether.features.core.shared.TITLE
 import pl.ejdev.dixittogether.features.core.shared.Title
-import pl.ejdev.dixittogether.layout.button.GameButton
+import pl.ejdev.dixittogether.features.core.view.widgets.GameButton
 
 private const val START_BUTTON_LABEL = "Start"
 private const val SPLASH_WAIT_TIME: Long = 2000

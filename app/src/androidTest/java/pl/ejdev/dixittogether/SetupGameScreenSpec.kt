@@ -2,7 +2,7 @@ package pl.ejdev.dixittogether
 
 import androidx.compose.ui.test.*
 import org.junit.Test
-import pl.ejdev.dixittogether.layout.view.SetupGameScreen
+import pl.ejdev.dixittogether.features.core.view.pages.SetupGameScreen
 
 private const val ADD_USER_BTN = "add-user-btn"
 private const val USER_NAME_TEXT_FIELD = "user-name-text-field"

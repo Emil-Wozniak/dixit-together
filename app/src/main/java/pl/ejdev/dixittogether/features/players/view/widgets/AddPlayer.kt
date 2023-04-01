@@ -1,35 +1,44 @@
-package pl.ejdev.dixittogether.layout.view
+package pl.ejdev.dixittogether.features.players.view.widgets
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
-import androidx.navigation.NavHostController
 import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
 import pl.ejdev.dixittogether.features.core.shared.GameColor
-import pl.ejdev.dixittogether.features.core.shared.KeltWide
-import pl.ejdev.dixittogether.features.core.shared.Title
+import pl.ejdev.dixittogether.features.core.view.widgets.DropDownColors
 import pl.ejdev.dixittogether.features.players.domain.entities.Player
-import pl.ejdev.dixittogether.features.players.domain.entities.playerSaver
-import pl.ejdev.dixittogether.layout.dropdown.DropDownColors
-import pl.ejdev.dixittogether.layout.shape.Circle
+import pl.ejdev.dixittogether.features.players.data.sources.playerSaver
 
 private const val ADD_USER = "add user"
 private const val ADD_USER_BTN = "add-user-btn"
 private const val ADD_USER_ICON = "add-user-icon"
 private const val USER_NAME_TEXT_FIELD = "user-name-text-field"
 
+private fun dataFilled(
+    name: MutableState<String>,
+    color: MutableState<GameColor?>
+): Boolean =
+    color.value != null && name.value != ""
 @Composable
 internal fun AddPlayer(
     usedColors: List<GameColor>,
@@ -83,53 +92,6 @@ internal fun AddPlayer(
                         testTag = ADD_USER_ICON
                     }
                 )
-            }
-        }
-    }
-}
-
-private fun dataFilled(
-    name: MutableState<String>,
-    color: MutableState<GameColor?>
-): Boolean =
-    color.value != null && name.value != ""
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-internal fun SetupGameScreen(navController: NavHostController) {
-    val players = remember { mutableStateListOf<Player>() }
-    View(navController = navController) {
-        Title(
-            text = "Players:",
-            size = 14.em,
-            lineHeight = 1.em,
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.CenterHorizontally)
-                .padding(bottom = 8.dp)
-        )
-        AddPlayer(usedColors = players.mapNotNull(Player::color)) {
-            players.add(it.value)
-        }
-        OutlinedCard(
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-        ) {
-            players.map {
-                Row(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth()
-                ) {
-                    it.color?.let { Circle(color = requireNotNull(it.color)) }
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Text(
-                        text = "${it.name}",
-                        fontFamily = KeltWide,
-                        fontWeight = FontWeight.Normal,
-                    )
-                }
             }
         }
     }

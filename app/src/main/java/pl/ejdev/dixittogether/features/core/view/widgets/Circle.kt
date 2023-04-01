@@ -1,4 +1,4 @@
-package pl.ejdev.dixittogether.layout.shape
+package pl.ejdev.dixittogether.features.core.view.widgets
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size

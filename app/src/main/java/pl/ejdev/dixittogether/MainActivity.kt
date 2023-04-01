@@ -16,12 +16,12 @@ import androidx.compose.ui.unit.em
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import pl.ejdev.dixittogether.layout.view.SetupGameScreen
+import pl.ejdev.dixittogether.features.core.view.pages.SetupGameScreen
 import pl.ejdev.dixittogether.features.core.shared.TITLE
 import pl.ejdev.dixittogether.features.core.shared.Title
 import pl.ejdev.dixittogether.ui.theme.DixitTogetherTheme
-import pl.ejdev.dixittogether.layout.view.ProfileScreen
-import pl.ejdev.dixittogether.layout.view.LandingScreen
+import pl.ejdev.dixittogether.features.core.view.pages.ProfileScreen
+import pl.ejdev.dixittogether.features.core.view.pages.LandingScreen
 
 internal val startScreenBackground = Color(253, 147, 0)
 
