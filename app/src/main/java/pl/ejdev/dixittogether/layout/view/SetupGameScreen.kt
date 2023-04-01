@@ -16,14 +16,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.navigation.NavHostController
-import pl.ejdev.dixittogether.layout.dropdown.DropDownColors
-import pl.ejdev.dixittogether.layout.shape.Circle
 import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
 import pl.ejdev.dixittogether.features.core.shared.GameColor
 import pl.ejdev.dixittogether.features.core.shared.KeltWide
 import pl.ejdev.dixittogether.features.core.shared.Title
 import pl.ejdev.dixittogether.features.players.domain.entities.Player
 import pl.ejdev.dixittogether.features.players.domain.entities.playerSaver
+import pl.ejdev.dixittogether.layout.dropdown.DropDownColors
+import pl.ejdev.dixittogether.layout.shape.Circle
 
 private const val ADD_USER = "add user"
 private const val ADD_USER_BTN = "add-user-btn"
@@ -50,9 +50,7 @@ internal fun AddPlayer(
                     onValueChange = { name.value = it },
                     modifier = Modifier
                         .background(Color.White)
-                        .semantics {
-                            testTag = USER_NAME_TEXT_FIELD
-                        }
+                        .semantics { testTag = USER_NAME_TEXT_FIELD }
                 )
             }
             Spacer(modifier = Modifier.size(4.dp))

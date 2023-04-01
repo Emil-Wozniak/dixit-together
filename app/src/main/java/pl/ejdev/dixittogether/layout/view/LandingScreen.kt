@@ -14,16 +14,15 @@ import kotlinx.coroutines.delay
 import pl.ejdev.dixittogether.features.core.shared.SUB_TITLE
 import pl.ejdev.dixittogether.features.core.shared.TITLE
 import pl.ejdev.dixittogether.features.core.shared.Title
-import pl.ejdev.dixittogether.ui.button.GameButton
+import pl.ejdev.dixittogether.layout.button.GameButton
 
 private const val START_BUTTON_LABEL = "Start"
-private const val SplashWaitTime: Long = 2000
+private const val SPLASH_WAIT_TIME: Long = 2000
 
 @Composable
 internal fun LandingScreen(navController: NavHostController) {
-
     LaunchedEffect(Unit) {
-        delay(SplashWaitTime)
+        delay(SPLASH_WAIT_TIME)
     }
     View(navController) {
         Row(

@@ -1,4 +1,4 @@
-package pl.ejdev.dixittogether.ui.button
+package pl.ejdev.dixittogether.layout.button
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
