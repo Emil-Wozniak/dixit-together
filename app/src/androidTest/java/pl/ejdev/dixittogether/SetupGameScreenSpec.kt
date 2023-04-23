@@ -2,7 +2,7 @@ package pl.ejdev.dixittogether
 
 import androidx.compose.ui.test.*
 import org.junit.Test
-import pl.ejdev.dixittogether.features.core.view.pages.SetupGameScreen
+import pl.ejdev.dixittogether.features.players.view.screens.PlayersScreen
 
 private const val ADD_USER_BTN = "add-user-btn"
 private const val USER_NAME_TEXT_FIELD = "user-name-text-field"
@@ -13,7 +13,7 @@ class SetupGameScreenSpec : InstrumentalTest {
     @Test
     fun `Setup game screen has add user button`() {
         runAndroidComposeUiTest {
-            content { SetupGameScreen(it) }
+            content { PlayersScreen(it) }
             tag(ADD_USER_BTN) {
                 isDisplayed()
                 isDisabled()
@@ -24,7 +24,7 @@ class SetupGameScreenSpec : InstrumentalTest {
     @Test
     fun `Setup game screen has add user name text field`() {
         runAndroidComposeUiTest {
-            content { SetupGameScreen(it) }
+            content { PlayersScreen(it) }
             tag(USER_NAME_TEXT_FIELD) {
                 isDisplayed()
                 isEnabled()
@@ -40,7 +40,7 @@ class SetupGameScreenSpec : InstrumentalTest {
     @Test
     fun `Setup game screen has add user icon`() {
         runAndroidComposeUiTest {
-            content { SetupGameScreen(it) }
+            content { PlayersScreen(it) }
             tag(ADD_USER_ICON) { isDisplayed() }
         }
     }

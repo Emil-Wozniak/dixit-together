@@ -16,17 +16,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
-import pl.ejdev.dixittogether.features.core.shared.GameColor
 
 @Composable
 internal fun DropDownColors(
-    colors: List<GameColor>,
-    onSelect: (color: GameColor) -> Unit
+    colors: List<Color>,
+    onSelect: (color: Color) -> Unit
 ) {
     var selected by remember { mutableStateOf(GAME_COLORS[0].color) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
@@ -46,7 +46,6 @@ internal fun DropDownColors(
                     )
                     Circle(color = selected)
                 }
-
                 DropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { onClick(false) },
@@ -54,12 +53,13 @@ internal fun DropDownColors(
                 ) {
                     colors.forEach {
                         DropdownMenuItem(
-                            text = { Circle(color = it.color) },
+                            text = { Circle(color = it) },
                             onClick = {
-                                selected = it.color
+                                selected = it
                                 onClick(false)
                                 onSelect(it)
-                            })
+                            }
+                        )
                     }
                 }
             }

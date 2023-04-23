@@ -1,36 +1,52 @@
-@file:OptIn(ExperimentalTextApi::class)
-
 package pl.ejdev.dixittogether
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.em
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import pl.ejdev.dixittogether.features.core.view.pages.SetupGameScreen
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.GlobalContext.startKoin
+import pl.ejdev.dixittogether.features.core.data.sources.appModule
 import pl.ejdev.dixittogether.features.core.shared.TITLE
 import pl.ejdev.dixittogether.features.core.shared.Title
-import pl.ejdev.dixittogether.ui.theme.DixitTogetherTheme
-import pl.ejdev.dixittogether.features.core.view.pages.ProfileScreen
 import pl.ejdev.dixittogether.features.core.view.pages.LandingScreen
+import pl.ejdev.dixittogether.features.core.view.pages.ProfileScreen
+import pl.ejdev.dixittogether.features.game.view.screens.GameScreen
+import pl.ejdev.dixittogether.features.players.view.screens.PlayersScreen
+import pl.ejdev.dixittogether.ui.theme.DixitTogetherTheme
 
-internal val startScreenBackground = Color(253, 147, 0)
+internal val startScreenBackground = Color(red = 253, green = 147, blue = 0)
+
+private const val NO_CURRENT_VIEW_MODEL_STORE =
+    "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        startKoin {
+            androidLogger()
+            androidContext(this@MainActivity)
+            modules(appModule)
+        }
         setContent {
             DixitTogetherTheme {
+                val viewModelStoreOwner: ViewModelStoreOwner =
+                    checkNotNull(LocalViewModelStoreOwner.current) { NO_CURRENT_VIEW_MODEL_STORE }
                 val navController = rememberNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -39,7 +55,14 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "home") {
                         composable("home") { LandingScreen(navController) }
                         composable("profile") { ProfileScreen(navController) }
-                        composable("setup") { SetupGameScreen(navController) }
+                        composable("setup") {
+                            PlayersScreen(navController, viewModel(viewModelStoreOwner))
+                        }
+                        composable("game") {
+                            CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
+                                GameScreen(navController)
+                            }
+                        }
                     }
                 }
             }

@@ -18,6 +18,7 @@ import pl.ejdev.dixittogether.features.core.view.widgets.GameButton
 
 private const val START_BUTTON_LABEL = "Start"
 private const val SPLASH_WAIT_TIME: Long = 2000
+private const val SETUP = "setup"
 
 @Composable
 internal fun LandingScreen(navController: NavHostController) {
@@ -29,26 +30,10 @@ internal fun LandingScreen(navController: NavHostController) {
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 36.dp)
-        ) {
-            Title(TITLE, size = 24.em, lineHeight = 1.5.em)
-        }
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 36.dp)
-        ) {
-            Title(SUB_TITLE, size = 14.em, lineHeight = 1.em)
-        }
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
                 .padding(bottom = 36.dp)
         ) {
             GameButton(START_BUTTON_LABEL) {
-                navController.navigate("setup")
+                navController.navigate(SETUP)
             }
         }
     }
