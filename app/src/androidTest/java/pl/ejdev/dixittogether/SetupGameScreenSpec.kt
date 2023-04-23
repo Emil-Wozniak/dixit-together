@@ -1,7 +1,7 @@
 package pl.ejdev.dixittogether
 
 import androidx.compose.ui.test.*
-import org.junit.Test
+import br.com.colman.kotest.FreeSpec
 import pl.ejdev.dixittogether.features.players.view.screens.PlayersScreen
 
 private const val ADD_USER_BTN = "add-user-btn"
@@ -9,9 +9,8 @@ private const val USER_NAME_TEXT_FIELD = "user-name-text-field"
 private const val ADD_USER_ICON = "add-user-icon"
 
 @OptIn(ExperimentalTestApi::class)
-class SetupGameScreenSpec : InstrumentalTest {
-    @Test
-    fun `Setup game screen has add user button`() {
+class SetupGameScreenSpec : FreeSpec({
+    "Setup game screen has add user button" - {
         runAndroidComposeUiTest {
             content { PlayersScreen(it) }
             tag(ADD_USER_BTN) {
@@ -20,9 +19,7 @@ class SetupGameScreenSpec : InstrumentalTest {
             }
         }
     }
-
-    @Test
-    fun `Setup game screen has add user name text field`() {
+    "Setup game screen has add user name text field" - {
         runAndroidComposeUiTest {
             content { PlayersScreen(it) }
             tag(USER_NAME_TEXT_FIELD) {
@@ -36,12 +33,10 @@ class SetupGameScreenSpec : InstrumentalTest {
             }
         }
     }
-
-    @Test
-    fun `Setup game screen has add user icon`() {
+    "Setup game screen has add user icon" - {
         runAndroidComposeUiTest {
             content { PlayersScreen(it) }
             tag(ADD_USER_ICON) { isDisplayed() }
         }
     }
-}
+})
