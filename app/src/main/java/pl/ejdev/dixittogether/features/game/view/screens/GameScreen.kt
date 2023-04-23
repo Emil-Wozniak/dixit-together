@@ -16,6 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -60,7 +62,12 @@ internal fun GameScreen(
 
     View(navController = navController) {
         Column {
-            Row { Title("Round: ${gameViewModel.getRound()}", size = 8.em) }
+            Row {
+                Title(
+                    text = "Round: ${gameViewModel.getRound()}",
+                    size = 8.em
+                )
+            }
             Votes(votes)
             Row {
                 Column {
@@ -68,7 +75,8 @@ internal fun GameScreen(
                         Card(
                             modifier = Modifier
                                 .width(20.dp)
-                                .height(20.dp),
+                                .height(20.dp)
+                                .semantics { testTag = "current-voter" },
                             colors = CardDefaults.cardColors(
                                 containerColor = it,
                                 contentColor = MaterialTheme.colorScheme.surface
@@ -84,14 +92,14 @@ internal fun GameScreen(
                 Button(
                     enabled = voters.isEmpty(),
                     onClick = {
-                    gameViewModel
-                        .getPlayersResults()
-                        .map(PlayerResult::incrementScore)
-                        .let(gameViewModel::finishRound)
-                    votes = playersToVote
-                    voters = playersToVote
-                    currentVoter = voters[0]
-                }) {
+                        gameViewModel
+                            .getPlayersResults()
+                            .map(PlayerResult::incrementScore)
+                            .let(gameViewModel::finishRound)
+                        votes = playersToVote
+                        voters = playersToVote
+                        currentVoter = voters[0]
+                    }) {
                     Text(text = "End round")
                 }
             }

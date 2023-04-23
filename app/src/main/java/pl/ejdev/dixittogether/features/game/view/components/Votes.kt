@@ -11,6 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import pl.ejdev.dixittogether.features.core.shared.Title
@@ -19,9 +21,11 @@ import pl.ejdev.dixittogether.features.core.shared.Title
 internal fun Votes(votes: List<Color>) {
     Row(modifier = Modifier.padding(4.dp)) {
         Title(
-            "Votes:", size = 6.em, modifier = Modifier
+            text = "Votes:", size = 6.em,
+            modifier = Modifier
                 .padding(0.dp)
                 .offset(0.dp, 0.dp)
+                .semantics { testTag = "votes-title" }
         )
         votes.map { color ->
             Card(

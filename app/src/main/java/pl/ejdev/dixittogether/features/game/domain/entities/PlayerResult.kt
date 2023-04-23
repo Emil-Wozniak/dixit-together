@@ -5,7 +5,7 @@ import pl.ejdev.dixittogether.features.players.domain.entities.Player
 
 data class PlayerResult(
     val player: Player,
-    var score: Int,
+    var score: Int = 0,
 )
 
 fun PlayerResult.toPlayerDetails(): PlayerDetails =

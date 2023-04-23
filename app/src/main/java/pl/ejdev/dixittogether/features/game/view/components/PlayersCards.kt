@@ -12,6 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
@@ -24,11 +26,16 @@ internal fun PlayersCards(
     currentVoter: Color?,
     vote: (color: Color) -> Unit
 ) {
-    gameViewModel.getResultColorPairs()
-        .map { (first, second) ->
+    gameViewModel
+        .getResultColorPairs()
+        .map {
             Row {
-                Column { GameCard(first, fraction = 0.5f, currentVoter, vote) }
-                Column { GameCard(second, fraction = 1f, currentVoter, vote) }
+                if (it.size > 1) {
+                    Column { GameCard(it[0], fraction = 0.5f, currentVoter, vote) }
+                    Column { GameCard(it[1], fraction = 1f, currentVoter, vote) }
+                } else {
+                    Column { GameCard(it[0], fraction = 0.5f, currentVoter, vote) }
+                }
             }
         }
 }
@@ -45,9 +52,8 @@ private fun GameCard(
             .fillMaxWidth(fraction = fraction)
             .height(120.dp)
             .padding(4.dp)
-            .clickable(onClick = {
-                currentVoter?.let(vote)
-            }),
+            .clickable(onClick = { currentVoter?.let(vote) })
+            .semantics { testTag = "game-card" },
         colors = CardDefaults.cardColors(
             containerColor = color,
             contentColor = MaterialTheme.colorScheme.surface

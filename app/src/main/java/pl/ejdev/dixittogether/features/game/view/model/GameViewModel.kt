@@ -21,7 +21,7 @@ class GameViewModel : ViewModel() {
     fun start(players: List<Player>) {
         state.value = Game(
             players = players,
-            results = players.map { PlayerResult(it, 0) },
+            results = players.map(::PlayerResult),
         )
     }
 
@@ -37,30 +37,18 @@ class GameViewModel : ViewModel() {
         )
     }
 
-    fun getResultColorPairs(): List<Pair<Color, Color>> =
+    fun getResultColorPairs(): List<List<Color>> =
         state.value
             .results
-            .asSequence()
-            .zipWithNext()
-            .withIndex()
-            .filter { it.index % 2 == 0 }
-            .map(IndexedValue<Pair<PlayerResult, PlayerResult>>::value)
-            .map { (a, b) -> a.colorOrDefault() to b.colorOrDefault() }
-            .toList()
+            .chunked(2)
+            .map { it.map(PlayerResult::player).map(Player::getColorOrDefault) }
 
- fun getPlayerDetailsPairs(): List<Pair<PlayerDetails, PlayerDetails>> =
+    fun getPlayerDetailsPairs() =
         state.value
             .results
-            .asSequence()
-            .zipWithNext()
-            .withIndex()
-            .filter { it.index % 2 == 0 }
-            .map(IndexedValue<Pair<PlayerResult, PlayerResult>>::value)
-            .map { (a, b) -> a.toPlayerDetails() to b.toPlayerDetails() }
-            .toList()
+            .chunked(2)
+            .map { it.map(PlayerResult::toPlayerDetails) }
 }
-
-private fun PlayerResult.colorOrDefault(): Color = this.player.gameColor?.color ?: Color.Black
 
 private infix fun PlayerResult.addScore(results: List<PlayerResult>) = this.apply {
     val score = results.find { it.player.name == player.name }?.score ?: 0

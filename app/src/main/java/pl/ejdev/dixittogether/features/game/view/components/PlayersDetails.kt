@@ -18,37 +18,58 @@ import pl.ejdev.dixittogether.features.players.domain.entities.Player
 
 @Composable
 fun PlayersDetails(gameViewModel: GameViewModel) {
-    gameViewModel.getPlayerDetailsPairs()
-        .map { (a, b) ->
+    gameViewModel
+        .getPlayerDetailsPairs()
+        .map {
             Row {
-                Column {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(fraction = 0.5f)
-                            .padding(4.dp)
-                    ) {
-                        Icon(
-                            Icons.Outlined.AccountCircle,
-                            contentDescription = "player icon",
-                            tint = a.color
-                        )
-                        Text(text = "Player ${a.name}")
-                        Text(text = " ${a.score}")
+                val firstPlayer = it[0]
+                if (it.size > 1) {
+                    val secondPlayer = it[1]
+                    Column {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(fraction = 0.5f)
+                                .padding(4.dp)
+                        ) {
+                            Icon(
+                                Icons.Outlined.AccountCircle,
+                                contentDescription = "player icon",
+                                tint = firstPlayer.color
+                            )
+                            Text(text = "Player ${firstPlayer.name}")
+                            Text(text = " ${firstPlayer.score}")
+                        }
                     }
-                }
-                Column {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(fraction = 0.5f)
-                            .padding(4.dp)
-                    ) {
-                        Icon(
-                            Icons.Outlined.AccountCircle,
-                            contentDescription = "player icon",
-                            tint = b.color
-                        )
-                        Text(text = b.name)
-                        Text(text = " ${b.score}")
+                    Column {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(fraction = 0.5f)
+                                .padding(4.dp)
+                        ) {
+                            Icon(
+                                Icons.Outlined.AccountCircle,
+                                contentDescription = "player icon",
+                                tint = secondPlayer.color
+                            )
+                            Text(text = secondPlayer.name)
+                            Text(text = " ${secondPlayer.score}")
+                        }
+                    }
+                } else {
+                    Column {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(fraction = 0.5f)
+                                .padding(4.dp)
+                        ) {
+                            Icon(
+                                Icons.Outlined.AccountCircle,
+                                contentDescription = "player icon",
+                                tint = firstPlayer.color
+                            )
+                            Text(text = "Player ${firstPlayer.name}")
+                            Text(text = " ${firstPlayer.score}")
+                        }
                     }
                 }
             }

@@ -2,14 +2,18 @@ package pl.ejdev.dixittogether
 
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.semantics.SemanticsNode
 import androidx.compose.ui.test.*
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.TestCase.assertEquals
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 internal interface InstrumentalTest {
+
+    infix fun<T: Any> Any.shouldBe(t: T) = assertEquals(this, t)
 
     @OptIn(ExperimentalTestApi::class)
     fun AndroidComposeUiTest<ComponentActivity>.tag(
@@ -18,6 +22,15 @@ internal interface InstrumentalTest {
     ) = onNode(hasTestTag(name), useUnmergedTree = true).run {
         interaction(SemanticsNodeInteractionDsl(this))
     }
+    @OptIn(ExperimentalTestApi::class)
+    fun AndroidComposeUiTest<ComponentActivity>.tags(
+        name: String,
+        interaction: List<SemanticsNode>.() -> Unit
+    ) = onAllNodes(hasTestTag(name), useUnmergedTree = true).run {
+        interaction(this.fetchSemanticsNodes())
+    }
+
+
 
     class SemanticsNodeInteractionDsl(private val interaction: SemanticsNodeInteraction) {
         internal fun isDisplayed() {
