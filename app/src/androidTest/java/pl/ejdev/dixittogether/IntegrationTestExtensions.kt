@@ -15,6 +15,10 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 
 @OptIn(ExperimentalTestApi::class)
+infix fun AndroidComposeUiTest<ComponentActivity>.tag(name: String): SemanticsMatcher =
+    hasTestTag(name)
+
+@OptIn(ExperimentalTestApi::class)
 fun AndroidComposeUiTest<ComponentActivity>.tag(
     name: String,
     interaction: SemanticsNodeInteractionDsl.() -> Unit = { isDisplayed() }
