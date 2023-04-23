@@ -36,15 +36,17 @@ internal fun PlayersScreen(
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 8.dp)
         )
-        AddPlayer(usedColors = playersViewModel.getAll().mapNotNull(Player::gameColor)) {
-            playersViewModel.add(it)
-        }
+        AddPlayer(
+            usedColors = playersViewModel.getAll().mapNotNull(Player::gameColor),
+            onAddUser = playersViewModel::add
+        )
         ShowPlayers(playersViewModel.getAll())
         GameButton(
-            NEXT_BUTTON_LABEL,
-            active = playersViewModel.getAll().size > 1
-        ) {
-            navController.navigate(NEXT_BUTTON_DESTINATION)
-        }
+            text = NEXT_BUTTON_LABEL,
+            active = playersViewModel.getAll().size > 1,
+            onClick =  {
+                navController.navigate(NEXT_BUTTON_DESTINATION)
+            }
+        )
     }
 }
