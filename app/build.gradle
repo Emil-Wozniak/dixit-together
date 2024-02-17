@@ -7,13 +7,13 @@ plugins {
 
 android {
     namespace 'pl.ejdev.dixittogether'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         testInstrumentationRunnerArguments runnerBuilder: 'de.mannodermaus.junit5.AndroidJUnit5Builder'
         applicationId "pl.ejdev.dixittogether"
         minSdk 30
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -58,12 +58,12 @@ android {
 }
 
 ext {
-    nav_version = "2.5.3"
+    nav_version = "2.7.7"
     grooidVersion = '3.0.0'
     multidex_version = "2.0.1"
     kotest_version = '5.5.5'
-    koin_version = '3.4.0'
-    kotestVersion = '5.6.1'
+    koin_version = '3.5.3'
+    kotestVersion = '5.8.0'
 }
 
 dependencies {
@@ -71,41 +71,44 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect"
     implementation "androidx.multidex:multidex:$multidex_version"
     implementation "androidx.navigation:navigation-compose:$nav_version"
-    implementation 'androidx.core:core-ktx:1.10.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'androidx.activity:activity-compose:1.7.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    implementation 'androidx.activity:activity-compose:1.8.2'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.compose.material3:material3:1.1.0-rc01'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    implementation 'androidx.compose.material3:material3:1.2.0'
+    implementation 'com.google.android.gms:play-services-analytics:18.0.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
     implementation "io.insert-koin:koin-android:$koin_version"
+
+    implementation "com.google.accompanist:accompanist-pager:0.34.0"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.34.0"
 
     // TESTS
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     androidTestImplementation "androidx.test:runner:1.5.2"
-    androidTestImplementation "de.mannodermaus.junit5:android-test-core:1.3.0"
-    androidTestImplementation "org.junit.jupiter:junit-jupiter-api:5.9.2"
-    androidTestRuntimeOnly "de.mannodermaus.junit5:android-test-runner:1.3.0"
+    androidTestImplementation 'de.mannodermaus.junit5:android-test-core:1.4.0'
+    androidTestImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    androidTestRuntimeOnly 'de.mannodermaus.junit5:android-test-runner:1.4.0'
 
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.9.2"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.9.2"
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.10.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
 
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.9.2"
-    androidTestImplementation 'de.mannodermaus.junit5:android-test-runner:1.3.0'
+    androidTestImplementation 'de.mannodermaus.junit5:android-test-runner:1.4.0'
 
     // KOTEST
     testImplementation "io.kotest:kotest-runner-junit5:$kotestVersion"
     testImplementation "io.kotest:kotest-assertions-core:$kotestVersion"
-    testImplementation "io.kotest.extensions:kotest-extensions-mockserver:1.0.0"
+    testImplementation 'io.kotest.extensions:kotest-extensions-mockserver:1.3.0'
 
     androidTestImplementation "io.kotest:kotest-runner-junit5:$kotestVersion"
     androidTestImplementation "io.kotest:kotest-assertions-core:$kotestVersion"
-    androidTestImplementation("br.com.colman:kotest-runner-android:1.0.0")
+    androidTestImplementation('br.com.colman:kotest-runner-android:1.1.0')
 
 }
 

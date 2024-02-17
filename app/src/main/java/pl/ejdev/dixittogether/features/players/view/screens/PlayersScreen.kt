@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import pl.ejdev.dixittogether.features.core.shared.Title
 import pl.ejdev.dixittogether.features.core.view.pages.View
 import pl.ejdev.dixittogether.features.core.view.widgets.GameButton
@@ -49,4 +51,11 @@ internal fun PlayersScreen(
             }
         )
     }
+}
+
+@Preview
+@Composable
+fun PlayersScreenPreview() {
+    val navController = rememberNavController()
+    PlayersScreen(navController)
 }

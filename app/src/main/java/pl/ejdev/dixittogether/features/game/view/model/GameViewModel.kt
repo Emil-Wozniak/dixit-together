@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import pl.ejdev.dixittogether.features.game.domain.entities.Game
-import pl.ejdev.dixittogether.features.game.domain.entities.PlayerDetails
 import pl.ejdev.dixittogether.features.game.domain.entities.PlayerResult
 import pl.ejdev.dixittogether.features.game.domain.entities.toPlayerDetails
 import pl.ejdev.dixittogether.features.players.domain.entities.Player
@@ -32,7 +31,7 @@ class GameViewModel : ViewModel() {
     fun finishRound(results: List<PlayerResult>) {
         state.value = Game(
             players = state.value.players,
-            results = state.value.results.map { it addScore results },
+            results = state.value.results.map { playerResult -> playerResult + results },
             round = state.value.round + 1
         )
     }
@@ -41,7 +40,11 @@ class GameViewModel : ViewModel() {
         state.value
             .results
             .chunked(2)
-            .map { it.map(PlayerResult::player).map(Player::getColorOrDefault) }
+            .map { playerResults ->
+                playerResults
+                    .map(PlayerResult::player)
+                    .map(Player::getColorOrDefault)
+            }
 
     fun getPlayerDetailsPairs() =
         state.value
@@ -50,7 +53,9 @@ class GameViewModel : ViewModel() {
             .map { it.map(PlayerResult::toPlayerDetails) }
 }
 
-private infix fun PlayerResult.addScore(results: List<PlayerResult>) = this.apply {
-    val score = results.find { it.player.name == player.name }?.score ?: 0
+private operator fun PlayerResult.plus(results: List<PlayerResult>) = this.apply {
+    val score = results.find { it.player.name == player.name }
+        ?.score
+        ?: 0
     this.score = score
 }

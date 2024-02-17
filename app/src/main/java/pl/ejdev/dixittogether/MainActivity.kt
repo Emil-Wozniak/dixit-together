@@ -3,6 +3,7 @@ package pl.ejdev.dixittogether
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -15,6 +16,10 @@ import androidx.compose.ui.unit.em
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDeepLink
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -22,6 +27,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
 import pl.ejdev.dixittogether.features.core.data.sources.appModule
+import pl.ejdev.dixittogether.features.core.shared.Screen
 import pl.ejdev.dixittogether.features.core.shared.TITLE
 import pl.ejdev.dixittogether.features.core.shared.Title
 import pl.ejdev.dixittogether.features.core.view.pages.LandingScreen
@@ -45,20 +51,23 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             DixitTogetherTheme {
-                val viewModelStoreOwner: ViewModelStoreOwner =
-                    checkNotNull(LocalViewModelStoreOwner.current) { NO_CURRENT_VIEW_MODEL_STORE }
+                val viewModelStoreOwner = LocalViewModelStoreOwner.currentView()
                 val navController = rememberNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     NavHost(navController = navController, startDestination = "home") {
-                        composable("home") { LandingScreen(navController) }
-                        composable("profile") { ProfileScreen(navController) }
-                        composable("setup") {
+                        composable(Screen.HOME) {
+                            LandingScreen(navController)
+                        }
+                        composable(Screen.PROFILE) {
+                            ProfileScreen(navController)
+                        }
+                        composable(Screen.SETUP) {
                             PlayersScreen(navController, viewModel(viewModelStoreOwner))
                         }
-                        composable("game") {
+                        composable(Screen.GAME) {
                             CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
                                 GameScreen(navController)
                             }
@@ -68,6 +77,19 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+@Composable
+fun LocalViewModelStoreOwner?.currentView(): ViewModelStoreOwner =
+    checkNotNull(this?.current) { NO_CURRENT_VIEW_MODEL_STORE }
+
+internal fun NavGraphBuilder.composable(
+    route: Screen,
+    arguments: List<NamedNavArgument> = emptyList(),
+    deepLinks: List<NavDeepLink> = emptyList(),
+    content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit
+) {
+     return composable(route.path, arguments, deepLinks, content = content)
 }
 
 @Preview(showBackground = true)

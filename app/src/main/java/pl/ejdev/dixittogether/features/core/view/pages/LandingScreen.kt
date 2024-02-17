@@ -8,17 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.delay
-import pl.ejdev.dixittogether.features.core.shared.SUB_TITLE
-import pl.ejdev.dixittogether.features.core.shared.TITLE
-import pl.ejdev.dixittogether.features.core.shared.Title
+import pl.ejdev.dixittogether.features.core.shared.Screen
 import pl.ejdev.dixittogether.features.core.view.widgets.GameButton
 
 private const val START_BUTTON_LABEL = "Start"
 private const val SPLASH_WAIT_TIME: Long = 2000
-private const val SETUP = "setup"
 
 @Composable
 internal fun LandingScreen(navController: NavHostController) {
@@ -33,7 +29,7 @@ internal fun LandingScreen(navController: NavHostController) {
                 .padding(bottom = 36.dp)
         ) {
             GameButton(START_BUTTON_LABEL) {
-                navController.navigate(SETUP)
+                navController.navigate(Screen.SETUP.path)
             }
         }
     }

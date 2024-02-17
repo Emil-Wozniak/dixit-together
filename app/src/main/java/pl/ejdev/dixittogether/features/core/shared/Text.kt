@@ -12,12 +12,15 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
+import pl.ejdev.dixittogether.features.game.view.components.Votes
 
 internal const val TITLE = "Dixit"
-internal const val SUB_TITLE = "Together"
 
 internal val shadowColor = Color(244, 212, 154)
 
@@ -26,14 +29,16 @@ fun Title(
     text: String,
     size: TextUnit,
     lineHeight: TextUnit = 2.5.em,
+    textAlign: TextAlign? = null,
     modifier: Modifier = Modifier
         .padding(16.dp)
         .offset(x = 8.dp, y = 8.dp)
 ) {
     Text(
         text = text,
-        fontFamily = KeltWide,
+        fontFamily = Garamond,
         fontWeight = FontWeight.Normal,
+        textAlign = textAlign,
         fontSize = size,
         modifier = modifier,
         style = LocalTextStyle.current.merge(
@@ -41,7 +46,7 @@ fun Title(
                 lineHeight = lineHeight,
                 shadow = Shadow(
                     color = shadowColor,
-                    offset = Offset(8f, 8f),
+                    offset = Offset(2f, 2f),
                     blurRadius = 1f
                 ),
                 lineHeightStyle = LineHeightStyle(
@@ -51,4 +56,11 @@ fun Title(
             )
         )
     )
+}
+
+
+@Composable
+@Preview(name = "TitleComponent", showBackground = true)
+internal fun TitlePreview() {
+    Title("Dixit", 24.sp)
 }
