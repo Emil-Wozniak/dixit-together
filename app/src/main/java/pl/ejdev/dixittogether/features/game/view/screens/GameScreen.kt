@@ -8,19 +8,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Divider
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.semantics
@@ -42,6 +37,7 @@ import pl.ejdev.dixittogether.features.game.view.components.PlayersCards
 import pl.ejdev.dixittogether.features.game.view.components.PlayersDetails
 import pl.ejdev.dixittogether.features.game.view.components.Votes
 import pl.ejdev.dixittogether.features.game.view.model.GameViewModel
+import pl.ejdev.dixittogether.features.game.view.model.RoundViewModel
 import pl.ejdev.dixittogether.features.players.domain.entities.Player
 import pl.ejdev.dixittogether.features.players.view.model.PlayerViewModel
 
@@ -49,54 +45,34 @@ import pl.ejdev.dixittogether.features.players.view.model.PlayerViewModel
 internal fun GameScreen(
     navController: NavHostController,
     playerViewModel: PlayerViewModel = viewModel(),
-    gameViewModel: GameViewModel = viewModel()
+    gameViewModel: GameViewModel = viewModel(),
+    roundViewModel: RoundViewModel = viewModel()
 ) {
-    val players = playerViewModel.getPlayers()
+    val players: List<Player> = playerViewModel.getPlayers()
     gameViewModel.start(players)
-
-    val playersColors: List<Color> = players.map(Player::getColorOrDefault)
-    val votes = remember {
-        mutableStateOf(playersColors)
-    }
-    val voters = remember {
-        mutableStateOf(playersColors)
-    }
-    var narrator by remember {
-        mutableStateOf(playerViewModel.getNarrator()?.getColorOrDefault())
-    }
-    val selectedVotes = remember { mutableStateListOf<Color>() }
-    val cardsVotes = remember {
-        mutableStateMapOf(*playersColors.map { it to mutableListOf<Color>() }.toTypedArray())
-    }
+    roundViewModel.start(players, playerViewModel.getNarrator())
 
     fun vote(currentVoter: Color, cardColor: Color) {
-        selectedVotes.add(currentVoter)
-        val colors = playersColors.filter { it !in selectedVotes }.filter { it != currentVoter }
-        votes.value = colors
-        voters.value = colors
-        val actualMap = cardsVotes[cardColor]
-        val newColors = actualMap?.also { it.add(currentVoter) } ?: mutableListOf(currentVoter)
-        cardsVotes.put(cardColor, newColors)
+        roundViewModel.vote(currentVoter, cardColor, players)
     }
 
     fun finishRound() {
-        gameViewModel
-            .getPlayersResults()
-            .map(PlayerResult::incrementScore)
-            .let(gameViewModel::finishRound)
-        playerViewModel.nextNarrator()
-        val newPlayers = playerViewModel.getPlayers().map(Player::getColorOrDefault)
-        votes.value = newPlayers
-        voters.value = newPlayers
-        narrator = playerViewModel.getNarrator()?.getColorOrDefault()
-        selectedVotes.clear()
-        cardsVotes.clear()
-        cardsVotes.putAll(playersColors.map { it to mutableListOf<Color>() }.toTypedArray())
+        val newPlayers = playerViewModel.getPlayers()
+        roundViewModel.finishRound(
+            newPlayers = newPlayers,
+            narrator = playerViewModel.getNarrator()?.getColorOrDefault()
+        ) {
+            gameViewModel
+                .getPlayersResults()
+                .map(PlayerResult::incrementScore)
+                .let(gameViewModel::finishRound)
+            playerViewModel.nextNarrator()
+        }
     }
 
     View(navController = navController) {
         Column {
-            Narrator(narrator)
+            Narrator(roundViewModel.narrator.value)
             Title(
                 text = "Round: ${gameViewModel.getRound()}",
                 size = 6.em,
@@ -104,14 +80,23 @@ internal fun GameScreen(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
             )
-            Votes(votes)
-            Divider()
-            PlayersCards(gameViewModel, voters.value.firstOrNull(), cardsVotes, ::vote)
-            Divider()
+            Votes(roundViewModel.votes)
+            HorizontalDivider(
+                thickness = 4.dp
+            )
+            PlayersCards(
+                gameViewModel,
+                roundViewModel.voters.value.firstOrNull(),
+                roundViewModel.cardsVotes,
+                ::vote
+            )
+            HorizontalDivider(
+                thickness = 4.dp
+            )
             PlayersDetails(gameViewModel)
             Row {
                 Button(
-                    enabled = voters.value.isEmpty(),
+                    enabled = roundViewModel.voters.value.isEmpty(),
                     onClick = ::finishRound
                 ) {
                     Text(text = "End round")

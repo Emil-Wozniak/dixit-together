@@ -33,7 +33,7 @@ import pl.ejdev.dixittogether.features.core.shared.Title
 import pl.ejdev.dixittogether.features.core.view.pages.LandingScreen
 import pl.ejdev.dixittogether.features.core.view.pages.ProfileScreen
 import pl.ejdev.dixittogether.features.game.view.screens.GameScreen
-import pl.ejdev.dixittogether.features.players.view.screens.PlayersScreen
+import pl.ejdev.dixittogether.features.players.view.screens.SetupScreen
 import pl.ejdev.dixittogether.ui.theme.DixitTogetherTheme
 
 internal val startScreenBackground = Color(red = 253, green = 147, blue = 0)
@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                             ProfileScreen(navController)
                         }
                         composable(Screen.SETUP) {
-                            PlayersScreen(navController, viewModel(viewModelStoreOwner))
+                            SetupScreen(navController, viewModel(viewModelStoreOwner))
                         }
                         composable(Screen.GAME) {
                             CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {

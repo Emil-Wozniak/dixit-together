@@ -36,7 +36,7 @@ fun Title(
 ) {
     Text(
         text = text,
-        fontFamily = Garamond,
+        fontFamily = Island_Moments,
         fontWeight = FontWeight.Normal,
         textAlign = textAlign,
         fontSize = size,
