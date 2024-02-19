@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
 import pl.ejdev.dixittogether.features.core.shared.componentColor
-import pl.ejdev.dixittogether.startScreenBackground
+import pl.ejdev.dixittogether.features.core.shared.mainBgColor
 
 @Composable
 internal fun DropDownColors(
@@ -77,7 +77,7 @@ internal fun DropDownColors(
 internal fun DropDownColorsPreview() {
     Surface(
         modifier = Modifier.size(200.dp),
-        color = startScreenBackground
+        color = mainBgColor
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),

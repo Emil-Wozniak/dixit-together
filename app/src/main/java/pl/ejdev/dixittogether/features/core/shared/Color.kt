@@ -8,10 +8,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 
-val componentColor = Color.hsv(0.59f, 0.58f, 0.08f)
-val shadingColor = Color(245, 245, 245)
+internal val mainBgColor = Color(red = 253, green = 147, blue = 0)
+internal val componentColor = Color.hsv(0.59f, 0.58f, 0.08f)
+internal val shadingColor = Color(245, 245, 245)
 
-fun Modifier.fadingEdge(brush: Brush) = this
+internal fun Modifier.fadingEdge(brush: Brush) = this
     .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
     .drawWithContent {
         drawContent()

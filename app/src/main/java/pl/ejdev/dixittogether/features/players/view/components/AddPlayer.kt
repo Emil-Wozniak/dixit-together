@@ -1,14 +1,12 @@
 package pl.ejdev.dixittogether.features.players.view.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PersonAdd
@@ -36,7 +34,7 @@ import pl.ejdev.dixittogether.features.core.shared.Island_Moments
 import pl.ejdev.dixittogether.features.core.view.widgets.DixitIconButton
 import pl.ejdev.dixittogether.features.core.view.widgets.DropDownColors
 import pl.ejdev.dixittogether.features.players.domain.entities.Player
-import pl.ejdev.dixittogether.startScreenBackground
+import pl.ejdev.dixittogether.features.core.shared.mainBgColor
 
 private const val ADD_USER = "add user"
 private const val ADD_USER_BTN = "add-user-btn"
@@ -118,7 +116,7 @@ internal fun AddPlayer(
 internal fun AddPlayerPreview() {
     Surface(
         modifier = Modifier.size(400.dp),
-        color = startScreenBackground
+        color = mainBgColor
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),

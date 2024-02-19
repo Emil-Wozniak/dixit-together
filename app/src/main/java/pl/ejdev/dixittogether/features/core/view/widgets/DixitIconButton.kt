@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pl.ejdev.dixittogether.features.core.shared.componentColor
 import pl.ejdev.dixittogether.features.core.shared.fadingEdge
-import pl.ejdev.dixittogether.startScreenBackground
+import pl.ejdev.dixittogether.features.core.shared.mainBgColor
 
 @Composable
 internal fun DixitIconButton(
@@ -73,7 +73,7 @@ internal fun DixitIconButton(
 internal fun DixitIconButtonPreview() {
     Surface(
         modifier = Modifier.size(200.dp),
-        color = startScreenBackground
+        color = mainBgColor
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),

@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.em
 import pl.ejdev.dixittogether.features.core.shared.Island_Moments
 import pl.ejdev.dixittogether.features.core.shared.componentColor
 import pl.ejdev.dixittogether.features.core.shared.fadingEdge
-import pl.ejdev.dixittogether.startScreenBackground
+import pl.ejdev.dixittogether.features.core.shared.mainBgColor
 
 @Composable
 internal fun DixitNumberButton(
@@ -174,7 +174,7 @@ internal fun DixitNumberButtonPreview() {
     }
     Surface(
         modifier = Modifier.size(600.dp),
-        color = startScreenBackground
+        color = mainBgColor
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),

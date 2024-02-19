@@ -39,7 +39,7 @@ import pl.ejdev.dixittogether.features.core.shared.Island_Moments
 import pl.ejdev.dixittogether.features.core.shared.TITLE
 import pl.ejdev.dixittogether.features.core.shared.componentColor
 import pl.ejdev.dixittogether.features.core.view.widgets.DixitButton
-import pl.ejdev.dixittogether.startScreenBackground
+import pl.ejdev.dixittogether.features.core.shared.mainBgColor
 
 @Composable
 internal fun View(
@@ -48,7 +48,7 @@ internal fun View(
 ) {
     val bottomColor = Color.hsl(0.63f, 0.28f, 0.23f)
     val brush = Brush.verticalGradient(
-        .05f to startScreenBackground,
+        .05f to mainBgColor,
         .6f to Color(57, 64, 111),
         .95f to bottomColor,
     )
@@ -80,7 +80,7 @@ internal fun View(
 private fun TopApplicationBar(navController: NavHostController) {
     TopAppBar(
         modifier = Modifier
-            .background(startScreenBackground)
+            .background(mainBgColor)
             .clip(
                 shape = RoundedCornerShape(
                     topStart = 0.dp,
