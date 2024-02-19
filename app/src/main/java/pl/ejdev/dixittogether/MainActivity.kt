@@ -27,6 +27,10 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
 import pl.ejdev.dixittogether.features.core.data.sources.appModule
 import pl.ejdev.dixittogether.features.core.shared.Screen
+import pl.ejdev.dixittogether.features.core.shared.Screen.GAME
+import pl.ejdev.dixittogether.features.core.shared.Screen.HOME
+import pl.ejdev.dixittogether.features.core.shared.Screen.PROFILE
+import pl.ejdev.dixittogether.features.core.shared.Screen.SETUP
 import pl.ejdev.dixittogether.features.core.shared.TITLE
 import pl.ejdev.dixittogether.features.core.shared.Title
 import pl.ejdev.dixittogether.features.core.view.pages.LandingScreen
@@ -55,16 +59,16 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     NavHost(navController = navController, startDestination = "home") {
-                        composable(Screen.HOME) {
+                        composable(HOME) {
                             LandingScreen(navController)
                         }
-                        composable(Screen.PROFILE) {
+                        composable(PROFILE) {
                             ProfileScreen(navController)
                         }
-                        composable(Screen.SETUP) {
+                        composable(SETUP) {
                             SetupScreen(navController, viewModel(viewModelStoreOwner))
                         }
-                        composable(Screen.GAME) {
+                        composable(GAME) {
                             CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
                                 GameScreen(navController)
                             }
