@@ -39,9 +39,6 @@ import pl.ejdev.dixittogether.features.game.view.screens.GameScreen
 import pl.ejdev.dixittogether.features.players.view.screens.SetupScreen
 import pl.ejdev.dixittogether.ui.theme.DixitTogetherTheme
 
-private const val NO_CURRENT_VIEW_MODEL_STORE =
-    "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,9 +77,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
-fun LocalViewModelStoreOwner?.currentView(): ViewModelStoreOwner =
-    checkNotNull(this?.current) { NO_CURRENT_VIEW_MODEL_STORE }
+private fun LocalViewModelStoreOwner?.currentView(): ViewModelStoreOwner =
+    checkNotNull(this?.current) {
+        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+    }
 
 internal fun NavGraphBuilder.composable(
     route: Screen,
