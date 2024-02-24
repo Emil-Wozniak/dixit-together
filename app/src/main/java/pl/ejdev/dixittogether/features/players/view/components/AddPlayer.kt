@@ -64,7 +64,8 @@ internal fun AddPlayer(
             value = name,
             textStyle = TextStyle.Default.copy(
                 fontFamily = Island_Moments,
-                fontSize = 5.em, fontWeight = FontWeight.Black
+                fontSize = 5.em,
+                fontWeight = FontWeight.SemiBold
             ),
             onValueChange = { name = it },
             colors = OutlinedTextFieldDefaults.colors(

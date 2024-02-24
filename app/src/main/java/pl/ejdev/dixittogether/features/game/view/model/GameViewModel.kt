@@ -31,7 +31,9 @@ class GameViewModel : ViewModel() {
     fun finishRound(results: List<PlayerResult>) {
         state.value = Game(
             players = state.value.players,
-            results = state.value.results.map { playerResult -> playerResult + results },
+            results = state.value.results.map { playerResult ->
+                playerResult + results
+            },
             round = state.value.round + 1
         )
     }
@@ -51,6 +53,11 @@ class GameViewModel : ViewModel() {
             .results
             .chunked(2)
             .map { it.map(PlayerResult::toPlayerDetails) }
+
+    fun getPlayerDetails() =
+        state.value
+            .results
+            .map(PlayerResult::toPlayerDetails)
 }
 
 private operator fun PlayerResult.plus(results: List<PlayerResult>) = this.apply {

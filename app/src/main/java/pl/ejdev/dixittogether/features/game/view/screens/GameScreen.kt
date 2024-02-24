@@ -8,14 +8,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.semantics
@@ -31,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
 import pl.ejdev.dixittogether.features.core.shared.Title
 import pl.ejdev.dixittogether.features.core.view.pages.View
+import pl.ejdev.dixittogether.features.core.view.widgets.DixitButton
 import pl.ejdev.dixittogether.features.game.domain.entities.PlayerResult
 import pl.ejdev.dixittogether.features.game.domain.entities.incrementScore
 import pl.ejdev.dixittogether.features.game.view.components.PlayersCards
@@ -81,27 +79,28 @@ internal fun GameScreen(
                 modifier = Modifier.fillMaxWidth(),
             )
             Votes(roundViewModel.votes)
-            HorizontalDivider(
-                thickness = 4.dp
-            )
+
             PlayersCards(
                 gameViewModel,
                 roundViewModel.voters.value.firstOrNull(),
                 roundViewModel.cardsVotes,
                 ::vote
             )
-            HorizontalDivider(
-                thickness = 4.dp
-            )
-            PlayersDetails(gameViewModel)
-            Row {
-                Button(
-                    enabled = roundViewModel.voters.value.isEmpty(),
-                    onClick = ::finishRound
-                ) {
-                    Text(text = "End round")
-                }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+                    .padding(4.dp)
+            ) {
+                DixitButton(
+                    text = "End round",
+                    active = roundViewModel.voters.value.isEmpty(),
+                    onClick = ::finishRound,
+                    width = 210,
+                    height = 45
+                )
             }
+            PlayersDetails(gameViewModel)
         }
     }
 }
@@ -134,13 +133,15 @@ private fun Narrator(currentVoter: Color?) {
 @Preview(name = "GameScreen", backgroundColor = 0xFFFFFFFF)
 @Composable
 fun GameScreenPreview() {
+    val players = GAME_COLORS.mapIndexed { index, gameColor -> Player("player $index", gameColor) }
+    val playerViewModel: PlayerViewModel = PlayerViewModel().apply {
+        players.forEach(::add)
+    }
+    val gameViewModel = GameViewModel()
+    val roundViewModel = RoundViewModel()
     val navController = rememberNavController()
-    GameScreen(navController, PlayerViewModel().apply {
-        add(Player("Emil", GAME_COLORS[0]))
-        add(Player("Ola", GAME_COLORS[1]))
-        add(Player("Bartosz", GAME_COLORS[2]))
-        add(Player("Michał", GAME_COLORS[3]))
-        add(Player("Gosia", GAME_COLORS[4]))
-        add(Player("Ewa", GAME_COLORS[5]))
-    })
+    GameScreen(
+        navController,
+        playerViewModel, gameViewModel, roundViewModel
+    )
 }

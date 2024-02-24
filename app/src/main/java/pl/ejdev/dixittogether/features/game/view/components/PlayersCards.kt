@@ -4,12 +4,14 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,7 +44,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
+import pl.ejdev.dixittogether.features.core.shared.ShadedComponent
 import pl.ejdev.dixittogether.features.core.shared.Title
+import pl.ejdev.dixittogether.features.core.shared.componentColor
 import pl.ejdev.dixittogether.features.game.domain.entities.PlayerResult
 import pl.ejdev.dixittogether.features.game.view.model.GameViewModel
 import pl.ejdev.dixittogether.features.players.domain.entities.Player
@@ -61,52 +65,57 @@ internal fun PlayersCards(
     val currentPageOffset = pagerState.currentPageOffsetFraction
     val currentIndex = pagerState.currentPage
     val maxOffset = 70.dp
-    Box(
-        modifier = Modifier.height(250.dp),
-        contentAlignment = Alignment.Center
+
+    ShadedComponent(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp)
     ) {
-        CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
-            HorizontalPager(
-                state = pagerState,
-                pageSize = PageSize.Fixed(155.dp),
-                pageSpacing = 5.dp,
-                contentPadding = PaddingValues(horizontal = 10.dp),
-                modifier = Modifier.fillMaxSize(),
-            ) { page ->
-                val playerResult = playersResults.getOrNull(page % playersResults.size)
-                if (playerResult != null) {
-                    val color = playerResult.player.getColorOrDefault()
-                    val offset = maxOffset * when (page) {
-                        currentIndex -> currentPageOffset.absoluteValue
-                        currentIndex - 1 -> 1 + currentPageOffset.coerceAtMost(0f)
-                        currentIndex + 1 -> 1 - currentPageOffset.coerceAtLeast(0f)
-                        else -> 1f
-                    }
-                    val isCurrent = offset != 0.dp
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(4.dp)
-                            .size(if (isCurrent) 200.dp else 250.dp)
-                            .clickable {
-                                currentVoter?.let { vote(it, color) }
-                            }
-                            .semantics { testTag = "game-card-${page}" }
-                            .border(
-                                width = 6.dp,
-                                color =
-                                if (isCurrent) Color.White.copy(alpha = 0.7f)
-                                else Color.White,
-                                shape = RoundedCornerShape(percent = 4)
-                            ),
-                        elevation = cardElevation(defaultElevation = 4.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor =
-                            if (isCurrent) Color.LightGray.copy(alpha = 0.7f)
-                            else Color.LightGray
-                        )
-                    ) {
-                        GameCard(color, isCurrent, cardsVotes[color])
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(componentColor)
+                .padding(8.dp)
+        ) {
+            CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
+                HorizontalPager(
+                    state = pagerState,
+                    pageSize = PageSize.Fixed(155.dp),
+                    pageSpacing = 5.dp,
+                    contentPadding = PaddingValues(horizontal = 10.dp),
+                    modifier = Modifier.fillMaxSize(),
+                ) { page ->
+                    val playerResult = playersResults.getOrNull(page % playersResults.size)
+                    if (playerResult != null) {
+                        val color = playerResult.player.getColorOrDefault()
+                        val offset = maxOffset * when (page) {
+                            currentIndex -> currentPageOffset.absoluteValue
+                            currentIndex - 1 -> 1 + currentPageOffset.coerceAtMost(0f)
+                            currentIndex + 1 -> 1 - currentPageOffset.coerceAtLeast(0f)
+                            else -> 1f
+                        }
+                        val isCurrent = offset != 0.dp
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(4.dp)
+                                .size(250.dp)
+                                .clickable { currentVoter?.let { vote(it, color) } }
+                                .semantics { testTag = "game-card-${page}" }
+                                .border(
+                                    width = 6.dp,
+                                    color =
+                                    if (isCurrent) Color.White.copy(alpha = 0.7f)
+                                    else Color.White,
+                                    shape = RoundedCornerShape(percent = 4)
+                                ),
+                            elevation = cardElevation(defaultElevation = 4.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.LightGray
+                            )
+                        ) {
+                            GameCard(color, cardsVotes[color])
+                        }
                     }
                 }
             }
@@ -115,50 +124,67 @@ internal fun PlayersCards(
 }
 
 @Composable
-private fun GameCard(color: Color, isCurrent: Boolean, votes: MutableList<Color>?) {
-    if (!isCurrent) {
-        Column(
-            modifier = Modifier
-                .padding(6.dp)
-                .height(32.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = CenterHorizontally,
-        ) {
-            Surface(
-                modifier = Modifier
-                    .width(15.dp)
-                    .height(11.dp)
-                    .padding(start = 4.dp, top = 4.dp, end = 4.dp)
-                    .shadow(4.dp, shape = CircleShape),
-                color = color,
-                shape = RoundedCornerShape(4.dp)
-            ) {}
-            Surface(
-                modifier = Modifier
-                    .width(20.dp)
-                    .height(20.dp)
-                    .padding(start = 4.dp, bottom = 4.dp, end = 4.dp)
-                    .shadow(4.dp, shape = RoundedCornerShape(topEnd = 6.dp, topStart = 6.dp)),
-                color = color,
-                shape = RoundedCornerShape(topEnd = 6.dp, topStart = 6.dp)
-            ) {}
-        }
+private fun GameCard(color: Color, votes: MutableList<Color>?) {
+    CardOwner(color)
+    CardTitle()
+    CardVotes(votes)
+}
+
+@Composable
+private fun CardVotes(votes: MutableList<Color>?) {
+    Row(modifier = Modifier.padding(start = 8.dp)) {
         votes?.forEach { addedColor ->
             Surface(
-                modifier = Modifier.size(12.dp),
-                color = addedColor,
+                modifier = Modifier
+                    .size(12.dp)
+                    .padding(1.dp),
+                shape = CircleShape,
+                color = addedColor
             ) {}
         }
+    }
+}
 
-        Column(
-            horizontalAlignment = CenterHorizontally,
+@Composable
+private fun CardOwner(color: Color) {
+    Column(
+        modifier = Modifier
+            .padding(6.dp)
+            .height(32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = CenterHorizontally,
+    ) {
+        Surface(
             modifier = Modifier
-                .padding(30.dp)
-                .fillMaxWidth()
-                .wrapContentSize(Alignment.Center)
-        ) {
-            Title(text = "Dixit", 24.sp)
-        }
+                .width(15.dp)
+                .height(11.dp)
+                .padding(start = 4.dp, top = 4.dp, end = 4.dp)
+                .shadow(4.dp, shape = CircleShape),
+            color = color,
+            shape = RoundedCornerShape(4.dp)
+        ) {}
+        Surface(
+            modifier = Modifier
+                .width(20.dp)
+                .height(20.dp)
+                .padding(start = 4.dp, bottom = 4.dp, end = 4.dp)
+                .shadow(4.dp, shape = RoundedCornerShape(topEnd = 6.dp, topStart = 6.dp)),
+            color = color,
+            shape = RoundedCornerShape(topEnd = 6.dp, topStart = 6.dp)
+        ) {}
+    }
+}
+
+@Composable
+private fun CardTitle() {
+    Column(
+        horizontalAlignment = CenterHorizontally,
+        modifier = Modifier
+            .padding(30.dp)
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.Center)
+    ) {
+        Title(text = "Dixit", 24.sp)
     }
 }
 
@@ -166,13 +192,21 @@ private fun GameCard(color: Color, isCurrent: Boolean, votes: MutableList<Color>
 @Preview(name = "Players cards", showBackground = true)
 @Composable
 internal fun PlayersCardsPreview() {
+    val cardsVotes: SnapshotStateMap<Color, MutableList<Color>> = remember {
+        mutableStateMapOf()
+    }
+    val from = GAME_COLORS.mapIndexed { index, gameColor ->
+        gameColor.color to GAME_COLORS
+            .filter { it.color != gameColor.color }
+            .take(index + 1)
+            .map { it.color }.toMutableList()
+    }.toMap()
+    cardsVotes.putAll(from)
     val gameViewModel = GameViewModel().apply {
         GAME_COLORS.mapIndexed { index, gameColor ->
             Player("player $index", gameColor)
         }.let { start(it) }
     }
-    val stateMap = remember {
-        mutableStateMapOf<Color, MutableList<Color>>()
-    }
-    PlayersCards(gameViewModel, GAME_COLORS[4].color, stateMap) { _, _ -> }
+
+    PlayersCards(gameViewModel, GAME_COLORS[4].color, cardsVotes) { _, _ -> }
 }

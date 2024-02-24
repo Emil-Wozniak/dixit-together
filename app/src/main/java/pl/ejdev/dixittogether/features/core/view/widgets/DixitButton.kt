@@ -30,6 +30,9 @@ internal fun DixitButton(
     text: String,
     active: Boolean = true,
     size: TextUnit = 6.em,
+    width: Int = 210,
+    height: Int = 60,
+    innerDeduct: Int = 10,
     onClick: () -> Unit = {}
 ) {
     val linearGradient = linearGradient(
@@ -40,14 +43,14 @@ internal fun DixitButton(
     val roundedCornerShape = RoundedCornerShape(20)
     Surface(
         modifier = Modifier
-            .width(210.dp)
-            .height(60.dp),
+            .width(width.dp)
+            .height(height.dp),
         shape = roundedCornerShape,
     ) {
         Surface(
             modifier = Modifier
-                .width(200.dp)
-                .height(55.dp)
+                .width((width - innerDeduct).dp)
+                .height((height - innerDeduct).dp)
                 .fadingEdge(linearGradient)
                 .background(componentColor),
             shape = roundedCornerShape,
@@ -58,7 +61,6 @@ internal fun DixitButton(
                 shape = roundedCornerShape,
                 colors = buttonColors(
                     containerColor = componentColor,
-
                 ),
                 modifier = Modifier.fillMaxSize()
             ) {
