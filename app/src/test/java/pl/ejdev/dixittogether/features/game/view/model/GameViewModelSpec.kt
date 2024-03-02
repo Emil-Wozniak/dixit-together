@@ -18,7 +18,7 @@ class GameViewModelSpec : FeatureSpec({
             val playerResults = listOf(emilResult, olaResult)
 
             game.start(players)
-            game.finishRound(playerResults)
+//            game.finishRound(playerResults, roundViewModel.cardsVotes)
             val results = game.getPlayersResults()
             results[0].score shouldBe 1
             results[0].player.name shouldBe EMIL

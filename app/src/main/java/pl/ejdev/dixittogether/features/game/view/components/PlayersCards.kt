@@ -43,6 +43,7 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
 import pl.ejdev.dixittogether.features.core.shared.ShadedComponent
 import pl.ejdev.dixittogether.features.core.shared.Title
@@ -55,9 +56,9 @@ import kotlin.math.absoluteValue
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun PlayersCards(
-    gameViewModel: GameViewModel,
     currentVoter: Color?,
     cardsVotes: SnapshotStateMap<Color, MutableList<Color>>,
+    gameViewModel: GameViewModel = viewModel(),
     vote: (currentVoter: Color, cardColor: Color) -> Unit
 ) {
     val playersResults: List<PlayerResult> = gameViewModel.getPlayersResults()
@@ -208,5 +209,5 @@ internal fun PlayersCardsPreview() {
         }.let { start(it) }
     }
 
-    PlayersCards(gameViewModel, GAME_COLORS[4].color, cardsVotes) { _, _ -> }
+    PlayersCards(GAME_COLORS[4].color, cardsVotes, gameViewModel) { _, _ -> }
 }

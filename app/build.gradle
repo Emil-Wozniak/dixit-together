@@ -34,15 +34,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    buildFeatures {
-        compose true
-    }
+    kotlinOptions { jvmTarget = '1.8' }
+    buildFeatures { compose true }
     composeOptions { kotlinCompilerExtensionVersion "1.4.4" }
     packagingOptions {
         resources {
+            // you may need to exclude other files if you get "duplicate files during packaging of APK"
+            exclude 'META-INF/LICENSE'
             exclude("META-INF/**")
             exclude("win32-x86/**")
             exclude("win32-x86-64/**")
@@ -53,7 +51,12 @@ android {
             ]
         }
     }
-    testOptions { unitTests.all { useJUnitPlatform() } }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
     sourceSets { main { java { srcDirs 'src/main/java', 'src/main/kotlin' } } }
 }
 
@@ -64,6 +67,8 @@ ext {
     kotest_version = '5.5.5'
     koin_version = '3.5.3'
     kotestVersion = '5.8.0'
+    groovyVersion = "3.0.5"
+    spockVersion = "2.0-M3-groovy-3.0"
 }
 
 dependencies {
@@ -100,17 +105,11 @@ dependencies {
 
     testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.10.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
-
-    androidTestImplementation 'de.mannodermaus.junit5:android-test-runner:1.4.0'
-
     // KOTEST
     testImplementation "io.kotest:kotest-runner-junit5:$kotestVersion"
     testImplementation "io.kotest:kotest-assertions-core:$kotestVersion"
     testImplementation 'io.kotest.extensions:kotest-extensions-mockserver:1.3.0'
-
     androidTestImplementation "io.kotest:kotest-runner-junit5:$kotestVersion"
     androidTestImplementation "io.kotest:kotest-assertions-core:$kotestVersion"
     androidTestImplementation('br.com.colman:kotest-runner-android:1.1.0')
-
 }
-

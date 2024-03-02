@@ -10,19 +10,20 @@ private val white = Color(252, 253, 255)
 private val green = Color(106, 142, 128)
 private val yellow = Color(253, 240, 50)
 
-private fun Color.hex(): Hex =
+internal fun Color.hex(): Hex =
     String.format("#%06X", 0xFFFFFF and this.toArgb())
 
-private fun Color.toGameColor(): GameColor =
+internal fun Color.toGameColor(): GameColor =
     this.hex() of this
 
 internal typealias Hex = String
 
 internal infix fun Hex.of(color: Color) = GameColor(this, color)
+internal fun String.toColor() = Color(android.graphics.Color.parseColor(this))
 
 data class GameColor(val hex: Hex, val color: Color)
 
-internal val GAME_COLORS: List<GameColor> =
+val GAME_COLORS: List<GameColor> =
     listOf(
         green.toGameColor(),
         yellow.toGameColor(),

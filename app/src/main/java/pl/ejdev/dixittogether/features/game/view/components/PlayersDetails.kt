@@ -1,17 +1,12 @@
 package pl.ejdev.dixittogether.features.game.view.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -32,12 +27,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
 import pl.ejdev.dixittogether.features.core.shared.Island_Moments
 import pl.ejdev.dixittogether.features.core.shared.componentColor
 import pl.ejdev.dixittogether.features.core.shared.fadingEdge
-import pl.ejdev.dixittogether.features.core.shared.mainBgColor
 import pl.ejdev.dixittogether.features.core.shared.shadingColor
 import pl.ejdev.dixittogether.features.core.view.pages.View
 import pl.ejdev.dixittogether.features.game.domain.entities.PlayerDetails
@@ -45,7 +40,7 @@ import pl.ejdev.dixittogether.features.game.view.model.GameViewModel
 import pl.ejdev.dixittogether.features.players.domain.entities.Player
 
 @Composable
-fun PlayersDetails(gameViewModel: GameViewModel) {
+internal fun PlayersDetails() {
     val borderColor = shadingColor
     val dividerHeight = Modifier.height(24.dp)
     val linearGradient = Brush.linearGradient(
@@ -75,79 +70,96 @@ fun PlayersDetails(gameViewModel: GameViewModel) {
                     .verticalScroll(rememberScrollState())
                     .background(componentColor)
             ) {
-                Row {
-                    Box(
-                        modifier = Modifier
-                            .padding(end = 4.dp)
-                            .height(24.dp)
-                            .width(24.dp),
-                    )
-                    VerticalDivider(
-                        modifier = dividerHeight,
-                        thickness = 1.dp,
-                        color = borderColor
-                    )
-                    Text(
-                        text = "Player",
-                        fontFamily = Island_Moments,
-                        fontWeight = FontWeight.Black,
-                        color = shadingColor,
-                        modifier = Modifier
-                            .fillMaxWidth(0.7f)
-                            .padding(start = 4.dp, end = 4.dp)
-                    )
-                    VerticalDivider(
-                        modifier = dividerHeight,
-                        thickness = 1.dp,
-                        color = borderColor
-                    )
-                    Text(
-                        text = "Score",
-                        fontFamily = Island_Moments,
-                        fontWeight = FontWeight.Black,
-                        color = shadingColor,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 4.dp)
-                    )
-                }
+                TableHeader(dividerHeight, borderColor)
                 HorizontalDivider(color = borderColor)
-                gameViewModel.getPlayerDetails().map { player ->
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        PlayerIcon(player)
-                        VerticalDivider(
-                            modifier = dividerHeight,
-                            thickness = 1.dp,
-                            color = borderColor
-                        )
-                        Text(
-                            text = player.name,
-                            fontFamily = Island_Moments,
-                            fontWeight = FontWeight.Black,
-                            color = shadingColor,
-                            modifier = Modifier
-                                .fillMaxWidth(0.7f)
-                                .padding(start = 4.dp, end = 4.dp)
-                        )
-                        VerticalDivider(
-                            modifier = dividerHeight,
-                            thickness = 1.dp,
-                            color = borderColor
-                        )
-                        Text(
-                            text = "${player.score}",
-                            fontFamily = Island_Moments,
-                            fontWeight = FontWeight.Black,
-                            color = shadingColor,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 4.dp)
-                        )
-                    }
-                    HorizontalDivider(color = borderColor)
-                }
+                PlayersResultsRows(dividerHeight, borderColor)
             }
         }
+    }
+}
+
+@Composable
+private fun PlayersResultsRows(
+    modifier: Modifier,
+    borderColor: Color,
+    gameViewModel: GameViewModel = viewModel(),
+) {
+    gameViewModel.getPlayerDetails().map { player ->
+        Row(modifier = Modifier.fillMaxWidth()) {
+            PlayerIcon(player)
+            VerticalDivider(
+                modifier = modifier,
+                thickness = 1.dp,
+                color = borderColor
+            )
+            Text(
+                text = player.name,
+                fontFamily = Island_Moments,
+                fontWeight = FontWeight.Black,
+                color = shadingColor,
+                modifier = Modifier
+                    .fillMaxWidth(0.7f)
+                    .padding(start = 4.dp, end = 4.dp)
+            )
+            VerticalDivider(
+                modifier = modifier,
+                thickness = 1.dp,
+                color = borderColor
+            )
+            Text(
+                text = "${player.score}",
+                fontFamily = Island_Moments,
+                fontWeight = FontWeight.Black,
+                color = shadingColor,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 4.dp)
+            )
+        }
+        HorizontalDivider(color = borderColor)
+    }
+}
+
+@Composable
+private fun TableHeader(
+    dividerHeight: Modifier,
+    borderColor: Color
+) {
+    Row {
+        Box(
+            modifier = Modifier
+                .padding(end = 4.dp)
+                .height(24.dp)
+                .width(24.dp),
+        )
+        VerticalDivider(
+            modifier = dividerHeight,
+            thickness = 1.dp,
+            color = borderColor
+        )
+        Text(
+            text = "Player",
+            fontFamily = Island_Moments,
+            fontWeight = FontWeight.Black,
+            color = shadingColor,
+            modifier = Modifier
+                .fillMaxWidth(0.7f)
+                .padding(start = 4.dp, end = 4.dp)
+        )
+        VerticalDivider(
+            modifier = dividerHeight,
+            thickness = 1.dp,
+            color = borderColor
+        )
+        Text(
+            text = "Score",
+            fontFamily = Island_Moments,
+            fontWeight = FontWeight.Black,
+            color = shadingColor,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 4.dp)
+        )
     }
 }
 
@@ -180,6 +192,6 @@ fun PlayersDetailsPreview() {
     }
 
     View(navController = navHostController) {
-        PlayersDetails(gameViewModel)
+        PlayersDetails()
     }
 }

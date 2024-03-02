@@ -7,12 +7,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import pl.ejdev.dixittogether.features.players.domain.entities.Player
 
-class RoundViewModel : ViewModel() {
-    val votes = mutableStateOf<List<Color>>(mutableListOf())
-    val voters = mutableStateOf<List<Color>>(mutableListOf())
-    var narrator = mutableStateOf<Color?>(null)
-    val selectedVotes = mutableStateListOf<Color>()
-    val cardsVotes = mutableStateMapOf<Color, MutableList<Color>>()
+internal class RoundViewModel : ViewModel() {
+    private val votes = mutableStateOf<List<Color>>(mutableListOf())
+    private val voters = mutableStateOf<List<Color>>(mutableListOf())
+    private var narrator = mutableStateOf<Color?>(null)
+    private val selectedVotes = mutableStateListOf<Color>()
+    private val cardsVotes = mutableStateMapOf<Color, MutableList<Color>>()
 
     fun start(players: List<Player>, narrator: Player?) {
         val playersColors: List<Color> = players.map(Player::getColorOrDefault)
@@ -35,12 +35,18 @@ class RoundViewModel : ViewModel() {
         this.cardsVotes[cardColor] = newColors
     }
 
+    fun roundVotes() = cardsVotes.toMap()
+
+    fun narrator() = narrator.value
+
+    fun votes() = votes.value
+    fun voters() = voters.value
+    fun cardsVotes() = cardsVotes
+
     fun finishRound(
         newPlayers: List<Player>,
         narrator: Color?,
-        doBefore: () -> Unit
     ) {
-        doBefore()
         val playersColors = newPlayers.map { it.getColorOrDefault() }
         this.votes.value = playersColors
         this.voters.value = playersColors

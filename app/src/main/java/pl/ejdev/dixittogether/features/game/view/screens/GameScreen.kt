@@ -29,8 +29,6 @@ import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
 import pl.ejdev.dixittogether.features.core.shared.Title
 import pl.ejdev.dixittogether.features.core.view.pages.View
 import pl.ejdev.dixittogether.features.core.view.widgets.DixitButton
-import pl.ejdev.dixittogether.features.game.domain.entities.PlayerResult
-import pl.ejdev.dixittogether.features.game.domain.entities.incrementScore
 import pl.ejdev.dixittogether.features.game.view.components.PlayersCards
 import pl.ejdev.dixittogether.features.game.view.components.PlayersDetails
 import pl.ejdev.dixittogether.features.game.view.components.Votes
@@ -47,30 +45,25 @@ internal fun GameScreen(
     roundViewModel: RoundViewModel = viewModel()
 ) {
     val players: List<Player> = playerViewModel.getPlayers()
-    gameViewModel.start(players)
+    gameViewModel.start(players + listOfNotNull(playerViewModel.getNarrator()))
     roundViewModel.start(players, playerViewModel.getNarrator())
 
-    fun vote(currentVoter: Color, cardColor: Color) {
+    fun vote(currentVoter: Color, cardColor: Color) =
         roundViewModel.vote(currentVoter, cardColor, players)
-    }
 
     fun finishRound() {
+        gameViewModel.finishRound(roundViewModel.roundVotes())
+        val narrator = playerViewModel.nextNarrator()
         val newPlayers = playerViewModel.getPlayers()
         roundViewModel.finishRound(
             newPlayers = newPlayers,
-            narrator = playerViewModel.getNarrator()?.getColorOrDefault()
-        ) {
-            gameViewModel
-                .getPlayersResults()
-                .map(PlayerResult::incrementScore)
-                .let(gameViewModel::finishRound)
-            playerViewModel.nextNarrator()
-        }
+            narrator = narrator.getColorOrDefault()
+        )
     }
 
     View(navController = navController) {
         Column {
-            Narrator(roundViewModel.narrator.value)
+            Narrator(roundViewModel.narrator())
             Title(
                 text = "Round: ${gameViewModel.getRound()}",
                 size = 6.em,
@@ -78,29 +71,29 @@ internal fun GameScreen(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
             )
-            Votes(roundViewModel.votes)
+            Votes(roundViewModel.votes())
 
             PlayersCards(
-                gameViewModel,
-                roundViewModel.voters.value.firstOrNull(),
-                roundViewModel.cardsVotes,
-                ::vote
+                roundViewModel.voters().firstOrNull(),
+                roundViewModel.cardsVotes(),
+                vote = ::vote
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(4.dp)
             ) {
                 DixitButton(
                     text = "End round",
-                    active = roundViewModel.voters.value.isEmpty(),
+                    active = roundViewModel.voters().isEmpty(),
                     onClick = ::finishRound,
                     width = 210,
                     height = 45
                 )
             }
-            PlayersDetails(gameViewModel)
+            PlayersDetails()
         }
     }
 }

@@ -1,18 +1,13 @@
 package pl.ejdev.dixittogether.features.game.view.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -27,11 +22,10 @@ import androidx.compose.ui.unit.sp
 import pl.ejdev.dixittogether.features.core.shared.GAME_COLORS
 import pl.ejdev.dixittogether.features.core.shared.ShadedComponent
 import pl.ejdev.dixittogether.features.core.shared.Title
-import pl.ejdev.dixittogether.features.core.shared.componentColor
 import pl.ejdev.dixittogether.features.core.shared.shadingColor
 
 @Composable
-internal fun Votes(votes: MutableState<List<Color>>) {
+internal fun Votes(votes: List<Color>) {
     Row(modifier = Modifier.padding(4.dp)) {
         Title(
             text = "Votes: ",
@@ -41,7 +35,7 @@ internal fun Votes(votes: MutableState<List<Color>>) {
                 .offset(0.dp, 0.dp)
                 .semantics { testTag = "votes-title" }
         )
-        votes.value.map { color ->
+        votes.map { color ->
             val linearGradient: Brush = Brush.linearGradient(
                 0.2f to color.copy(alpha = 0.8f),
                 0.3f to shadingColor,
@@ -72,5 +66,5 @@ internal fun VotesPreview() {
     val state = remember {
         mutableStateOf(GAME_COLORS.map { it.color })
     }
-    Votes(votes = state)
+    Votes(votes = state.value)
 }
