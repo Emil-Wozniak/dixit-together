@@ -40,7 +40,7 @@ import pl.ejdev.dixittogether.features.game.view.model.GameViewModel
 import pl.ejdev.dixittogether.features.players.domain.entities.Player
 
 @Composable
-internal fun PlayersDetails() {
+internal fun PlayersDetails(gameViewModel: GameViewModel) {
     val borderColor = shadingColor
     val dividerHeight = Modifier.height(24.dp)
     val linearGradient = Brush.linearGradient(
@@ -72,7 +72,7 @@ internal fun PlayersDetails() {
             ) {
                 TableHeader(dividerHeight, borderColor)
                 HorizontalDivider(color = borderColor)
-                PlayersResultsRows(dividerHeight, borderColor)
+                PlayersResultsRows(dividerHeight, borderColor, gameViewModel)
             }
         }
     }
@@ -122,8 +122,8 @@ private fun PlayersResultsRows(
 
 @Composable
 private fun TableHeader(
-    dividerHeight: Modifier,
-    borderColor: Color
+    modifier: Modifier,
+    borderColor: Color,
 ) {
     Row {
         Box(
@@ -133,7 +133,7 @@ private fun TableHeader(
                 .width(24.dp),
         )
         VerticalDivider(
-            modifier = dividerHeight,
+            modifier = modifier,
             thickness = 1.dp,
             color = borderColor
         )
@@ -147,7 +147,7 @@ private fun TableHeader(
                 .padding(start = 4.dp, end = 4.dp)
         )
         VerticalDivider(
-            modifier = dividerHeight,
+            modifier = modifier,
             thickness = 1.dp,
             color = borderColor
         )
@@ -192,6 +192,6 @@ fun PlayersDetailsPreview() {
     }
 
     View(navController = navHostController) {
-        PlayersDetails()
+        PlayersDetails(gameViewModel)
     }
 }

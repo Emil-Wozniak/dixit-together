@@ -30,6 +30,7 @@ fun Title(
     size: TextUnit,
     lineHeight: TextUnit = 2.5.em,
     textAlign: TextAlign? = null,
+    fontWeight: FontWeight = FontWeight.Normal,
     modifier: Modifier = Modifier
         .padding(16.dp)
         .offset(x = 8.dp, y = 8.dp)
@@ -37,7 +38,7 @@ fun Title(
     Text(
         text = text,
         fontFamily = Island_Moments,
-        fontWeight = FontWeight.Normal,
+        fontWeight = fontWeight,
         textAlign = textAlign,
         fontSize = size,
         modifier = modifier,

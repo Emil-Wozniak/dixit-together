@@ -55,7 +55,7 @@ internal fun View(
 
     Scaffold(
         topBar = { TopApplicationBar(navController) },
-        bottomBar = { BottomApplicationBar(bottomColor) }
+//        bottomBar = { BottomApplicationBar(bottomColor) }
     ) { paddingValues ->
         Column(
             modifier = Modifier

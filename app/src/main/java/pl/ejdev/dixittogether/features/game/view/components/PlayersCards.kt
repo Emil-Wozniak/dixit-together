@@ -28,6 +28,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardDefaults.cardElevation
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateMapOf
@@ -58,7 +59,7 @@ import kotlin.math.absoluteValue
 internal fun PlayersCards(
     currentVoter: Color?,
     cardsVotes: SnapshotStateMap<Color, MutableList<Color>>,
-    gameViewModel: GameViewModel = viewModel(),
+    gameViewModel: GameViewModel,
     vote: (currentVoter: Color, cardColor: Color) -> Unit
 ) {
     val playersResults: List<PlayerResult> = gameViewModel.getPlayersResults()
@@ -66,56 +67,57 @@ internal fun PlayersCards(
     val currentPageOffset = pagerState.currentPageOffsetFraction
     val currentIndex = pagerState.currentPage
     val maxOffset = 70.dp
-
-    ShadedComponent(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(250.dp)
-    ) {
-        Box(
+    if (playersResults.isNotEmpty()) {
+        ShadedComponent(
             modifier = Modifier
-                .fillMaxSize()
-                .background(componentColor)
-                .padding(8.dp)
+                .fillMaxWidth()
+                .height(250.dp)
         ) {
-            CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
-                HorizontalPager(
-                    state = pagerState,
-                    pageSize = PageSize.Fixed(155.dp),
-                    pageSpacing = 5.dp,
-                    contentPadding = PaddingValues(horizontal = 10.dp),
-                    modifier = Modifier.fillMaxSize(),
-                ) { page ->
-                    val playerResult = playersResults.getOrNull(page % playersResults.size)
-                    if (playerResult != null) {
-                        val color = playerResult.player.getColorOrDefault()
-                        val offset = maxOffset * when (page) {
-                            currentIndex -> currentPageOffset.absoluteValue
-                            currentIndex - 1 -> 1 + currentPageOffset.coerceAtMost(0f)
-                            currentIndex + 1 -> 1 - currentPageOffset.coerceAtLeast(0f)
-                            else -> 1f
-                        }
-                        val isCurrent = offset != 0.dp
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(4.dp)
-                                .size(250.dp)
-                                .clickable { currentVoter?.let { vote(it, color) } }
-                                .semantics { testTag = "game-card-${page}" }
-                                .border(
-                                    width = 6.dp,
-                                    color =
-                                    if (isCurrent) Color.White.copy(alpha = 0.7f)
-                                    else Color.White,
-                                    shape = RoundedCornerShape(percent = 4)
-                                ),
-                            elevation = cardElevation(defaultElevation = 4.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.LightGray
-                            )
-                        ) {
-                            GameCard(color, cardsVotes[color])
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(componentColor)
+                    .padding(8.dp)
+            ) {
+                CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
+                    HorizontalPager(
+                        state = pagerState,
+                        pageSize = PageSize.Fixed(155.dp),
+                        pageSpacing = 5.dp,
+                        contentPadding = PaddingValues(horizontal = 10.dp),
+                        modifier = Modifier.fillMaxSize(),
+                    ) { page ->
+                        val playerResult = playersResults.getOrNull(page % playersResults.size)
+                        if (playerResult != null) {
+                            val color = playerResult.player.getColorOrDefault()
+                            val offset = maxOffset * when (page) {
+                                currentIndex -> currentPageOffset.absoluteValue
+                                currentIndex - 1 -> 1 + currentPageOffset.coerceAtMost(0f)
+                                currentIndex + 1 -> 1 - currentPageOffset.coerceAtLeast(0f)
+                                else -> 1f
+                            }
+                            val isCurrent = offset != 0.dp
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(4.dp)
+                                    .size(250.dp)
+                                    .clickable { currentVoter?.let { vote(it, color) } }
+                                    .semantics { testTag = "game-card-${page}" }
+                                    .border(
+                                        width = 6.dp,
+                                        color =
+                                        if (isCurrent) Color.White.copy(alpha = 0.7f)
+                                        else Color.White,
+                                        shape = RoundedCornerShape(percent = 4)
+                                    ),
+                                elevation = cardElevation(defaultElevation = 4.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color.LightGray
+                                )
+                            ) {
+                                GameCard(color, cardsVotes[color])
+                            }
                         }
                     }
                 }

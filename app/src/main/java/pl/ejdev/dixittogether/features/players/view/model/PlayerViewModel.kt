@@ -23,6 +23,8 @@ internal class PlayerViewModel : ViewModel() {
         }
     }
 
+    fun addAll(players: List<Player>) = players.also(state::addAll)
+
     fun getAll(): List<Player> {
         val allPlayers = this.state.toList()
         val narratorIndex = narratorIndex.intValue
